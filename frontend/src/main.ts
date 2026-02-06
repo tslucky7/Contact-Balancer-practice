@@ -1,24 +1,27 @@
 import './style.css'
-import typescriptLogo from './typescript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.ts'
 
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://www.typescriptlang.org/" target="_blank">
-      <img src="${typescriptLogo}" class="logo vanilla" alt="TypeScript logo" />
-    </a>
-    <h1>Vite + TypeScript</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite and TypeScript logos to learn more
-    </p>
-  </div>
-`
+const form = document.getElementById("inquiryForm") as HTMLFormElement;
+const result = document.getElementById("result") as HTMLPreElement;
 
-setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const fd = new FormData(form);
+  const payload = {
+    name: String(fd.get("name") ?? ""),
+    email: String(fd.get("email") ?? ""),
+    subject: String(fd.get("subject") ?? ""),
+    message: String(fd.get("message") ?? ""),
+  };
+
+  const res = await fetch("/api/inquiries.php", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+
+  const json = await res.json().catch(() => ({}));
+  result.textContent = JSON.stringify(json, null, 2);
+
+  if (res.ok) form.reset();
+});

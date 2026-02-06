@@ -4,10 +4,18 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>frontend</title>
+    <title>Contact-Balancer</title>
   </head>
   <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.ts"></script>
+    <form id="inquiryForm" class="space-y-3">
+      <input name="name" placeholder="お名前" required class="border p-2 w-full" />
+      <input name="email" type="email" placeholder="メール" required class="border p-2 w-full" />
+      <input name="subject" placeholder="件名" required class="border p-2 w-full" />
+      <textarea name="message" placeholder="内容" required class="border p-2 w-full"></textarea>
+      <button class="border px-4 py-2" type="submit">送信</button>
+    </form>
+    <pre id="result"></pre>
+    
+    <script type="module" src="/assets/main.js"></script>    
   </body>
 </html>
