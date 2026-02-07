@@ -8,14 +8,14 @@
   </head>
   <body>
     <form id="inquiryForm" class="space-y-3">
-      <input name="name" placeholder="お名前" required class="border p-2 w-full" />
-      <input name="email" type="email" placeholder="メール" required class="border p-2 w-full" />
+      <input name="name" placeholder="お名前" required class="border p-2 w-full" autocomplete="name"/>
+      <input name="email" type="email" placeholder="メール" required class="border p-2 w-full" autocomplete="email"/>
       <input name="subject" placeholder="件名" required class="border p-2 w-full" />
       <textarea name="message" placeholder="内容" required class="border p-2 w-full"></textarea>
-      <button class="border px-4 py-2" type="submit">送信</button>
+      <button class="border px-4 py-2 bg-blue-500" type="submit">送信</button>
     </form>
     <pre id="result"></pre>
     
-    <script type="module" src="/assets/main.js"></script>    
+    <script type="module" src="/src/main.ts"></script>    
   </body>
 </html>

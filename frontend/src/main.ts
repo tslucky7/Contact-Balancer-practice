@@ -6,22 +6,27 @@ const result = document.getElementById("result") as HTMLPreElement;
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const fd = new FormData(form);
+  const formData = new FormData(form);
   const payload = {
-    name: String(fd.get("name") ?? ""),
-    email: String(fd.get("email") ?? ""),
-    subject: String(fd.get("subject") ?? ""),
-    message: String(fd.get("message") ?? ""),
+    name: String(formData.get("name") ?? ""),
+    email: String(formData.get("email") ?? ""),
+    subject: String(formData.get("subject") ?? ""),
+    message: String(formData.get("message") ?? ""),
   };
 
-  const res = await fetch("/api/inquiries.php", {
+  const response = await fetch("/api/inquiries.php", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
   });
 
-  const json = await res.json().catch(() => ({}));
+  const json = await response.json()
+    .then((data) => data)
+    .catch(() => {
+      console.error("The connection failed");
+      return {};
+    });
   result.textContent = JSON.stringify(json, null, 2);
 
-  if (res.ok) form.reset();
+  if (response.ok) form.reset();
 });
