@@ -21,12 +21,15 @@ form.addEventListener("submit", async (e) => {
   });
 
   const json = await response.json()
-    .then((data) => data)
+    .then((data) => {
+      data;
+      result.textContent = JSON.stringify(json, null, 2);
+    })
     .catch(() => {
-      console.error("The connection failed");
-      return {};
+      console.error("The connection failed.");
+      return;
+    })
+    .finally(() => {
+      if (response.ok) form.reset();
     });
-  result.textContent = JSON.stringify(json, null, 2);
-
-  if (response.ok) form.reset();
 });

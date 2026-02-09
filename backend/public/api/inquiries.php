@@ -3,24 +3,40 @@ declare(strict_types=1);
 
 header('Content-Type: application/json; charset=utf-8');
 
+require __DIR__ . '/../bootstrap.php';
+
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
   http_response_code(405);
   echo json_encode(['ok' => false, 'error' => 'Method Not Allowed']);
   exit;
 }
 
+/**
+ * 環境変数を取得
+ * @param string $key
+ * @return string
+ * @throws RuntimeException
+ */
 function env(string $key): string {
   $v = getenv($key);
   if ($v === false || $v === '') throw new RuntimeException("Missing env: {$key}");
   return $v;
 }
 
+/**
+ * リクエストボディをJSON形式で取得
+ * @return array
+ */
 function json_input(): array {
   $raw = file_get_contents('php://input') ?: '';
   $data = json_decode($raw, true);
   return is_array($data) ? $data : [];
 }
 
+/**
+ * ULID風のIDを生成
+ * @return string
+ */
 function ulid_like(): string {
   // 簡易: 26文字の英数字。練習用途（本気ならULIDライブラリ推奨）
   $chars = '0123456789ABCDEFGHJKMNPQRSTVWXYZ';
@@ -29,6 +45,12 @@ function ulid_like(): string {
   return $s;
 }
 
+/**
+ * JSON形式のリクエストを送信
+ * @param string $url
+ * @param array $payload
+ * @return array
+ */
 function curl_json_post(string $url, array $payload): array {
   $ch = curl_init($url);
   curl_setopt_array($ch, [
@@ -45,6 +67,12 @@ function curl_json_post(string $url, array $payload): array {
   return [$code, $body, $err];
 }
 
+/**
+ * フォーム形式のリクエストを送信
+ * @param string $url
+ * @param array $fields
+ * @return array
+ */
 function curl_form_post(string $url, array $fields): array {
   $ch = curl_init($url);
   curl_setopt_array($ch, [
