@@ -17,11 +17,11 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
  * @return string
  * @throws RuntimeException
  */
-function env(string $key): string {
-  $v = getenv($key);
-  if ($v === false || $v === '') throw new RuntimeException("Missing env: {$key}");
-  return $v;
-}
+// function env(string $key): string {
+//   $v = getenv($key);
+//   if ($v === false || $v === '') throw new RuntimeException("Missing env: {$key}");
+//   return $v;
+// }
 
 /**
  * リクエストボディをJSON形式で取得
