@@ -116,27 +116,29 @@ $pdo->prepare('INSERT INTO inquiries (request_id, name, email, subject, message)
 
 try {
   // 2) Backlog課題作成（必須: projectId/summary/issueTypeId/priorityId）
-  // Backlogは課題登録APIを提供（API Key/OAuth2）。 :contentReference[oaicite:8]{index=8}
-  $spaceKey = env('BACKLOG_SPACE_KEY'); // 例: "yourspace"
-  $apiKey = env('BACKLOG_API_KEY');
-  $url = "https://{$spaceKey}.backlog.com/api/v2/issues?apiKey=" . rawurlencode($apiKey);
+  // // Backlogは課題登録APIを提供（API Key/OAuth2）。 :contentReference[oaicite:8]{index=8}
+  // $spaceKey = env('BACKLOG_SPACE_KEY'); // 例: "yourspace"
+  // $apiKey = env('BACKLOG_API_KEY');
+  // $url = "https://{$spaceKey}.backlog.com/api/v2/issues?apiKey=" . rawurlencode($apiKey);
 
-  $description = "受付ID: {$requestId}\n\n【氏名】{$name}\n【メール】{$email}\n\n{$message}";
-  [$code, $body, $err] = curl_form_post($url, [
-    'projectId'   => env('BACKLOG_PROJECT_ID'),
-    'summary'     => "[問い合わせ] {$subject}",
-    'description' => $description,
-    'issueTypeId' => env('BACKLOG_ISSUE_TYPE_ID'),
-    'priorityId'  => env('BACKLOG_PRIORITY_ID'),
-  ]);
+  // $description = "受付ID: {$requestId}\n\n【氏名】{$name}\n【メール】{$email}\n\n{$message}";
+  // [$code, $body, $err] = curl_form_post($url, [
+  //   'projectId'   => env('BACKLOG_PROJECT_ID'),
+  //   'summary'     => "[問い合わせ] {$subject}",
+  //   'description' => $description,
+  //   'issueTypeId' => env('BACKLOG_ISSUE_TYPE_ID'),
+  //   'priorityId'  => env('BACKLOG_PRIORITY_ID'),
+  // ]);
 
-  if ($code < 200 || $code >= 300) {
-    throw new RuntimeException("Backlog API error: HTTP {$code} {$err} body={$body}");
-  }
+  // if ($code < 200 || $code >= 300) {
+  //   throw new RuntimeException("Backlog API error: HTTP {$code} {$err} body={$body}");
+  // }
 
-  $issue = json_decode($body, true);
-  $issueId = $issue['id'] ?? null;
-  $issueKey = $issue['issueKey'] ?? null;
+  // $issue = json_decode($body, true);
+  // $issueId = $issue['id'] ?? null;
+  // $issueKey = $issue['issueKey'] ?? null;
+  $issueId = 12345;
+  $issueKey = "dummyIssueKey";
 
   // 3) Slack通知（Incoming Webhook）
   // Webhookは「JSON payload を POST」するだけ。 :contentReference[oaicite:9]{index=9}
