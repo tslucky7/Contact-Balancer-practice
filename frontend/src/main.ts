@@ -1,13 +1,45 @@
 import './style.css';
 
 const form = document.getElementById('inquiryForm') as HTMLFormElement;
+const button = form.querySelector('button') as HTMLButtonElement;
 const result = document.getElementById('result') as HTMLPreElement;
+/**
+ * ボタンのクリックを処理する
+ * @param event
+ * @returns
+ */
+let formData: any = null;
+button.addEventListener('click', (event) => {
+  event.preventDefault();
 
-form.addEventListener('submit', async (e) => {
-  e.preventDefault();
+  const editArea = document.getElementById('step-edit');
+  editArea?.classList.add('hidden');
 
   const formData = new FormData(form);
-  const payload = {
+  const name = formData.get('name') as string;
+  const email = formData.get('email') as string;
+  const subject = formData.get('subject') as string;
+  const message = formData.get('message') as string;
+
+  // todo: 確認画面の要素の生成処理を関数化
+  const confirmContent = document.createElement('div');
+  const span = document.createElement('span');
+  span.textContent = name;
+  confirmContent.appendChild(span);
+
+  const confirmArea = document.getElementById('step-confirm');
+  confirmArea?.appendChild(confirmContent);
+});
+
+/**
+ * フォームの送信を処理する
+ * @param event
+ * @returns
+ */
+form.addEventListener('submit', async (event) => {
+  event.preventDefault();
+
+  const Payload = {
     name: String(formData.get('name') ?? ''),
     email: String(formData.get('email') ?? ''),
     subject: String(formData.get('subject') ?? ''),
@@ -18,7 +50,7 @@ form.addEventListener('submit', async (e) => {
     const response = await fetch('/api/inquiries.php', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
+      body: JSON.stringify(Payload),
     });
 
     if (!response.ok) {
@@ -29,7 +61,7 @@ form.addEventListener('submit', async (e) => {
     result.textContent = JSON.stringify(json, null, 2);
     form.reset();
   } catch (error) {
-    console.error("The connection failed.", error);
+    console.error('The connection failed.', error);
     result.textContent = `エラー: ${error instanceof Error ? error.message : 'Unknown error'}`;
   }
 });
