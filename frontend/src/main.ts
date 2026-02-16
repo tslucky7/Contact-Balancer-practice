@@ -12,23 +12,28 @@ let formData: any = null;
 button.addEventListener('click', (event) => {
   event.preventDefault();
 
+  // 入力画面を非表示化
   const editArea = document.getElementById('step-edit');
   editArea?.classList.add('hidden');
 
+  // 入力された情報を元に確認画面を生成
   const formData = new FormData(form);
   const name = formData.get('name') as string;
   const email = formData.get('email') as string;
   const subject = formData.get('subject') as string;
   const message = formData.get('message') as string;
 
-  // todo: 確認画面の要素の生成処理を関数化
-  const confirmContent = document.createElement('div');
-  const span = document.createElement('span');
-  span.textContent = name;
-  confirmContent.appendChild(span);
+  const confirmName = createConfirmContent(name);
+  const confirmEmail = createConfirmContent(email);
+  const confirmSubject = createConfirmContent(subject);
+  const confirmMessage = createConfirmContent(message);
 
+  // 確認用のタグに追加する
   const confirmArea = document.getElementById('step-confirm');
-  confirmArea?.appendChild(confirmContent);
+  confirmArea?.appendChild(confirmName);
+  confirmArea?.appendChild(confirmEmail);
+  confirmArea?.appendChild(confirmSubject);
+  confirmArea?.appendChild(confirmMessage);
 });
 
 /**
@@ -65,3 +70,17 @@ form.addEventListener('submit', async (event) => {
     result.textContent = `エラー: ${error instanceof Error ? error.message : 'Unknown error'}`;
   }
 });
+
+/**
+ * 確認画面の内容を作成する
+ * @param content
+ * @returns
+ */
+function createConfirmContent(content: string): HTMLDivElement {
+  const confirmContent = document.createElement('div');
+  const span = document.createElement('span');
+  span.textContent = content;
+  confirmContent.appendChild(span);
+
+  return confirmContent;
+}
