@@ -147,7 +147,6 @@ try {
     'text' => "新規問い合わせ: {$subject}\n受付ID: {$requestId}\nBacklog: {$issueKey}",
   ]);
   if ($scode < 200 || $scode >= 300) {
-    // 通知失敗は致命にしない設計もあり（今回は例として例外にする）
     throw new RuntimeException("Slack webhook error: HTTP {$scode} {$serr} body={$sbody}");
   }
 
