@@ -1,5 +1,5 @@
-import { submitAPI } from '../api';
-import { dom, state } from '../context';
+import { submitAPI } from '../api/api';
+import { dom, state } from '../state/context';
 import { toCompleteHandler } from './toCompleteHandler';
 
 /**

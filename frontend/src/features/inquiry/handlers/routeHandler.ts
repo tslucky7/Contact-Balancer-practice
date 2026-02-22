@@ -1,12 +1,12 @@
-import { dom, STEPS, state } from "../context";
+import { dom, state } from "../state/context";
+import { STEPS } from "../types/types";
 
 /**
  * ルートを処理する
  * @returns
  */
 export const routeHandler = (): void => {
-  const pathname = window.location.pathname; // 例: "/confirm" や "/complete"
-  console.log(pathname);
+  const pathname = window.location.pathname;
 
   switch (pathname) {
     case STEPS.EDIT:
@@ -21,8 +21,7 @@ export const routeHandler = (): void => {
       // 入力データがない場合は入力画面へ戻すなどの制御もここで行う
       console.log('case: STEPS.CONFIRM');
       if (!state.name || !state.email || !state.subject || !state.message) {
-        history.replaceState(null, '', '/');
-        console.log(pathname);
+        history.replaceState(null, '', STEPS.EDIT);
         return;
       }
 
