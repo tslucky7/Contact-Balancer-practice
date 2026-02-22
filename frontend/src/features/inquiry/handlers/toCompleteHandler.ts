@@ -1,5 +1,6 @@
 import { createCompleteContent } from "../components/completeContent";
-import { dom, STEPS } from "../context";
+import { dom } from "../state/context";
+import { STEPS } from "../types/types";
 import { setHeading } from "../components/heading";
 
 /**
@@ -19,5 +20,5 @@ export const toCompleteHandler = (): void => {
   dom.stepComplete.append(completeContent);
 
   console.log('送信完了'); 
-  history.pushState({ step: STEPS.COMPLETE }, '', '/complete');
+  history.pushState({ step: STEPS.COMPLETE }, '', STEPS.COMPLETE);
 }

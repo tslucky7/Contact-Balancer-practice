@@ -1,4 +1,5 @@
-import { dom, state, STEPS } from '../context';
+import { dom, state } from '../state/context';
+import { STEPS } from '../types/types';
 import { createConfirmContent } from '../components/confirmContent';
 import { createButton } from '../components/button';
 import { toEditHandler } from './toEditHandler';
@@ -21,7 +22,7 @@ export const toConfirmHandler = (event: Event): void => {
 
   event.preventDefault();
 
-  history.pushState({ step: STEPS.CONFIRM }, '', '/confirm');
+  history.pushState({ step: STEPS.CONFIRM }, '', STEPS.CONFIRM);
 
   // 入力画面を非表示化
   dom.stepEdit.classList.add('hidden');
