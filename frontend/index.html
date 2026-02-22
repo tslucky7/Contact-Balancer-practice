@@ -8,7 +8,7 @@
   </head>
   <body>
     <div class="container mx-auto">
-      <h1 class="heading font-bold text-3xl">お問い合わせ</h1>
+      <h1 id="inquiry-heading" class="heading font-bold text-3xl">お問い合わせ</h1>
       <p>以下の項目をご入力ください。* は必須項目です。</p>
       <div
         class="form-wrapper mt-5 p-5 border border-gray-700 rounded-lg border-solid"
@@ -52,9 +52,10 @@
           </div>
 
           <div id="step-confirm" class=""></div>
+
+          <div id="step-complete" class=""></div>
         </form>
       </div>
-      <pre id="result"></pre>
     </div>
 
     <script type="module" src="/src/main.ts"></script>
