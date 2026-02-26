@@ -5,6 +5,7 @@ header('Content-Type: application/json; charset=utf-8');
 
 require __DIR__ . '/../bootstrap.php';
 
+// POSTメソッドで実行されたことを確認
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
   http_response_code(405);
   echo json_encode(['ok' => false, 'error' => 'Method Not Allowed']);
@@ -12,19 +13,11 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 /**
- * 環境変数を取得
- * @param string $key
- * @return string
- * @throws RuntimeException
- */
-// function env(string $key): string {
-//   $v = getenv($key);
-//   if ($v === false || $v === '') throw new RuntimeException("Missing env: {$key}");
-//   return $v;
-// }
-
-/**
  * リクエストボディをJSON形式で取得
+ * 
+ * - file_get_contents: ファイルの内容を取得
+ * - php://input: リクエストボディを取得
+ * - json_decode: JSONをデコードし、phpの値にする。第二がtrueの場合は配列として返す
  * @return array
  */
 function json_input(): array {
@@ -47,6 +40,9 @@ function ulid_like(): string {
 
 /**
  * JSON形式のリクエストを送信
+ * 
+ * - curl_init: 他のサーバーに対してhttp通信をするための初期化処理。入れたurlに対して通信を行う。
+ * - curl_setopt_array: 複数のオプションを一度に設定する。
  * @param string $url
  * @param array $payload
  * @return array
@@ -89,6 +85,7 @@ function curl_form_post(string $url, array $fields): array {
   return [$code, $body, $err];
 }
 
+// 項目が増えるたびに追加しなくてもいいように改善必要？
 $data = json_input();
 $name = trim((string)($data['name'] ?? ''));
 $email = trim((string)($data['email'] ?? ''));
@@ -103,6 +100,8 @@ if ($name === '' || $email === '' || $subject === '' || $message === '') {
 
 $requestId = ulid_like();
 
+// sprintf: 文字列をフォーマット、DSNという接続文字列を作成
+// [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]: エラーが発生した場合に例外を投げる
 $pdo = new PDO(
   sprintf('mysql:host=%s;dbname=%s;charset=utf8mb4', env('DB_HOST'), env('DB_NAME')),
   env('DB_USER'),
@@ -111,6 +110,8 @@ $pdo = new PDO(
 );
 
 // 1) まずDB保存（受付番号を確保）
+// prepare: プレースホルダを使用してSQLを準備。（?,?）は、後でここに値を入れるという意味
+// execute: プレースホルダにそれぞれ値を代入してSQLを実行。(?, ?)に$requestId, $name..と入っていくイメージ
 $pdo->prepare('INSERT INTO inquiries (request_id, name, email, subject, message) VALUES (?,?,?,?,?)')
     ->execute([$requestId, $name, $email, $subject, $message]);
 

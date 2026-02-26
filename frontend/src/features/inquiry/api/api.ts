@@ -1,4 +1,4 @@
-import type { state } from "../state/context";
+import type { state } from '../state/context';
 
 /**
  * 問い合わせを送信する

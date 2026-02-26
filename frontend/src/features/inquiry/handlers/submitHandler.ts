@@ -15,7 +15,7 @@ export const submitHandler = async (event: Event): Promise<void> => {
 
   // submit時のデフォルト送信の挙動を防ぐ(デフォルトの送信だとBEにリクエストは飛ぶが、リロードされること・javascriptが正常に実行されない事象が発生する)
   event.preventDefault();
-  
+
   const Payload = { ...state };
 
   try {
