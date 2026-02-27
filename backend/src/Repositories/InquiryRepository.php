@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use PDO;
+use App\Models\Inquiry;
 
 class InquiryRepository {
   private PDO $pdo;
@@ -19,33 +20,44 @@ class InquiryRepository {
 
   /**
    * 問い合わせを作成
-   * @param array $data
+   * @param Inquiry $inquiry
    * @return void
    */
-  public function createInquiry(array $data): void {
+  public function create(Inquiry $inquiry): void {
     $this->pdo->prepare('INSERT INTO inquiries (request_id, name, email, subject, message) VALUES (?,?,?,?,?)')
-        ->execute([$data['request_id'], $data['name'], $data['email'], $data['subject'], $data['message']]);
+        ->execute([
+          $inquiry->requestId,
+          $inquiry->name,
+          $inquiry->email,
+          $inquiry->subject,
+          $inquiry->message,
+        ]);
   }
 
   /**
-   * 問い合わせを更新
-   * @param array $data
+   * 問い合わせを成功として更新
+   * @param Inquiry $inquiry
    * @return void
    */
-  public function successUpdateInquiry(array $data): void {
-    // 4) DB更新
+  public function markSuccess(Inquiry $inquiry): void {
     $this->pdo->prepare('UPDATE inquiries SET status="backlog_created", backlog_issue_id=?, backlog_issue_key=? WHERE request_id=?')
-        ->execute([$data['backlog_issue_id'], $data['backlog_issue_key'], $data['request_id']]);
+        ->execute([
+          $inquiry->backlogIssueId,
+          $inquiry->backlogIssueKey,
+          $inquiry->requestId,
+        ]);
   }
 
   /**
-   * 問い合わせを失敗にする
-   * @param string $requestId
-   * @param string $errorMessage
+   * 問い合わせを失敗として更新
+   * @param Inquiry $inquiry
    * @return void
    */
-  public function failedUpdateInquiry(string $requestId, string $errorMessage): void {
+  public function markFailed(Inquiry $inquiry): void {
     $this->pdo->prepare('UPDATE inquiries SET status="failed", error_message=? WHERE request_id=?')
-      ->execute([$errorMessage, $requestId]);
+        ->execute([
+          $inquiry->errorMessage,
+          $inquiry->requestId,
+        ]);
   }
 }

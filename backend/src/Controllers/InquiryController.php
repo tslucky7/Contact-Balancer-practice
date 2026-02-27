@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\Utils\RequestParser;
+use App\Models\Inquiry;
 use App\Services\InquiryService;
 use Throwable;
 
@@ -36,14 +37,27 @@ class InquiryController {
       $data = RequestParser::getJsonInput();
       $this->validateRequest($data);
 
-      $this->inquiryService->processInquiry($data);
+      $inquiry = new Inquiry($data);
+      $this->inquiryService->processInquiry($inquiry);
 
       http_response_code(200);
-      // todo: 要改善：requestIdとbacklogIssueKeyを返却する
-      echo json_encode(['ok' => true, 'requestId' => $requestId, 'backlogIssueKey' => $issueKey], JSON_UNESCAPED_UNICODE);
+      echo json_encode(
+        [
+          'ok' => true, 
+          'requestId' => $inquiry->requestId,
+          'backlogIssueKey' => $inquiry->backlogIssueKey,
+          'name' => $inquiry->name,
+          'email' => $inquiry->email,
+          'subject' => $inquiry->subject,
+          'message' => $inquiry->message,
+        ], JSON_UNESCAPED_UNICODE);
     } catch (Throwable $e) {
       http_response_code(500);
-      echo json_encode(['ok' => false, 'error' => 'リクエストのパースに失敗しました'], JSON_UNESCAPED_UNICODE);
+      echo json_encode(
+        [
+          'ok' => false, 
+          'error' => $e->getMessage(),
+        ], JSON_UNESCAPED_UNICODE);
       exit;
     }
   }
@@ -61,7 +75,10 @@ class InquiryController {
 
     if ($name === '' || $email === '' || $subject === '' || $message === '') {
       http_response_code(400);
-      echo json_encode(['ok' => false, 'error' => '必須項目が不足しています']);
+      echo json_encode([
+        'ok' => false, 
+        'error' => '必須項目が不足しています',
+      ], JSON_UNESCAPED_UNICODE);
       exit;
     }
   }
