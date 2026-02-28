@@ -1,4 +1,4 @@
-import { dom } from "../context";
+import { dom } from "../state/context";
 
 /**
  * ヘッダーのタイトルを設定
