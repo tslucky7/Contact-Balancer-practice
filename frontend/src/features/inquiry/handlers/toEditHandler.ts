@@ -1,4 +1,4 @@
-import { routeHandler } from "./routeHandler";
+import { dom } from "../state/context";
 import { STEPS } from "../types/types";
 
 /**
@@ -7,5 +7,8 @@ import { STEPS } from "../types/types";
 export const toEditHandler = (event: Event): void => {
   event.preventDefault();
   history.replaceState(null, '', STEPS.EDIT);
-  routeHandler();
+
+  dom.stepEdit.classList.remove('hidden');
+  dom.stepConfirm.replaceChildren();
+  dom.stepComplete.replaceChildren();
 };

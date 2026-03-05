@@ -33,8 +33,9 @@ export const routeHandler = (): void => {
     case STEPS.COMPLETE:
       // URLが完了画面なら、完了画面を表示する
       console.log('case: STEPS.COMPLETE');
-      dom.stepEdit.classList.add('hidden');
+      dom.stepEdit.classList.remove('hidden');
       dom.stepConfirm.replaceChildren();
+      history.replaceState(null, '', STEPS.EDIT);
 
       break;
     default:
