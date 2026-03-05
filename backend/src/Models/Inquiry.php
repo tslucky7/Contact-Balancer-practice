@@ -30,7 +30,7 @@ class Inquiry {
   public string $status;
   
   /** @var string|null */
-  public ?string $backlogIssueId = null;
+  public ?int $backlogIssueId = null;
   
   /** @var string|null */
   public ?string $backlogIssueKey = null;
@@ -50,7 +50,7 @@ class Inquiry {
   /**
    * 成功時の状態変化をモデル内で定義
    */
-  public function complete(string $issueId, string $issueKey): void {
+  public function complete(int $issueId, string $issueKey): void {
     $this->status = self::STATUS_COMPLETED;
     $this->backlogIssueId = $issueId;
     $this->backlogIssueKey = $issueKey;
