@@ -25,13 +25,13 @@ class InquiryRepository {
    */
   public function create(Inquiry $inquiry): void {
     $this->pdo->prepare('INSERT INTO inquiries (request_id, name, email, subject, message) VALUES (?,?,?,?,?)')
-        ->execute([
-          $inquiry->requestId,
-          $inquiry->name,
-          $inquiry->email,
-          $inquiry->subject,
-          $inquiry->message,
-        ]);
+      ->execute([
+        $inquiry->requestId,
+        $inquiry->name,
+        $inquiry->email,
+        $inquiry->subject,
+        $inquiry->message,
+      ]);
   }
 
   /**
@@ -40,12 +40,13 @@ class InquiryRepository {
    * @return void
    */
   public function markSuccess(Inquiry $inquiry): void {
-    $this->pdo->prepare('UPDATE inquiries SET status="backlog_created", backlog_issue_id=?, backlog_issue_key=? WHERE request_id=?')
-        ->execute([
-          $inquiry->backlogIssueId,
-          $inquiry->backlogIssueKey,
-          $inquiry->requestId,
-        ]);
+    $this->pdo->prepare('UPDATE inquiries SET status=?, backlog_issue_id=?, backlog_issue_key=? WHERE request_id=?')
+      ->execute([
+        $inquiry->status,
+        $inquiry->backlogIssueId,
+        $inquiry->backlogIssueKey,
+        $inquiry->requestId,
+      ]);
   }
 
   /**
@@ -54,10 +55,11 @@ class InquiryRepository {
    * @return void
    */
   public function markFailed(Inquiry $inquiry): void {
-    $this->pdo->prepare('UPDATE inquiries SET status="failed", error_message=? WHERE request_id=?')
-        ->execute([
-          $inquiry->errorMessage,
-          $inquiry->requestId,
-        ]);
+    $this->pdo->prepare('UPDATE inquiries SET status=?, error_message=? WHERE request_id=?')
+      ->execute([
+        $inquiry->status,
+        $inquiry->errorMessage,
+        $inquiry->requestId,
+      ]);
   }
 }
