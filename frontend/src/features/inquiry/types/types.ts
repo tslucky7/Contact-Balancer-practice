@@ -1,4 +1,4 @@
-export interface InquiryState {
+export interface InquiryFormData {
   name: string;
   email: string;
   subject: string;

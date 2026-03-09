@@ -1,4 +1,4 @@
-import type { InquiryDom, InquiryState } from "../types/types";
+import type { InquiryDom, InquiryFormData } from "../types/types";
 
 export const dom: InquiryDom = {
   form: document.getElementById('inquiryForm') as HTMLFormElement,
@@ -9,7 +9,7 @@ export const dom: InquiryDom = {
   toConfirmButton: document.getElementById('inquiry-to-confirm-button') as HTMLButtonElement,
 };
 
-export const state: InquiryState = {
+export const state: InquiryFormData = {
   name: '',
   email: '',
   subject: '',
