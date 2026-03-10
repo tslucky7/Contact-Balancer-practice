@@ -42,9 +42,9 @@ class InquiryRepository {
   public function markSuccess(Inquiry $inquiry): void {
     $this->pdo->prepare('UPDATE inquiries SET status=?, backlog_issue_id=?, backlog_issue_key=? WHERE request_id=?')
       ->execute([
-        $inquiry->status,
-        $inquiry->backlogIssueId,
-        $inquiry->backlogIssueKey,
+        $inquiry->getStatus(),
+        $inquiry->getBacklogIssueId(),
+        $inquiry->getBacklogIssueKey(),
         $inquiry->requestId,
       ]);
   }
@@ -57,8 +57,8 @@ class InquiryRepository {
   public function markFailed(Inquiry $inquiry): void {
     $this->pdo->prepare('UPDATE inquiries SET status=?, error_message=? WHERE request_id=?')
       ->execute([
-        $inquiry->status,
-        $inquiry->errorMessage,
+        $inquiry->getStatus(),
+        $inquiry->getErrorMessage(),
         $inquiry->requestId,
       ]);
   }
