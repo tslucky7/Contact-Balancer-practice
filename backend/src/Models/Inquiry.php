@@ -48,6 +48,141 @@ class Inquiry {
   }
 
   /**
+   * @return string
+   */
+  public function getRequestId(): string {
+    return $this->requestId;
+  }
+
+  /**
+   * @param string $requestId
+   * @return void
+   */
+  public function setRequestId(string $requestId): void {
+    $this->requestId = $requestId;
+  }
+
+  /**
+   * @return string
+   */
+  public function getName(): string {
+    return $this->name;
+  }
+
+  /**
+   * @param string $name
+   * @return void
+   */
+  public function setName(string $name): void {
+    $this->name = $name;
+  }
+
+  /**
+   * @return string
+   */
+  public function getEmail(): string {
+    return $this->email;
+  }
+
+  /**
+   * @param string $email
+   * @return void
+   */
+  public function setEmail(string $email): void {
+    $this->email = $email;
+  }
+
+  /**
+   * @return string
+   */
+  public function getSubject(): string {
+    return $this->subject;
+  }
+
+  /**
+   * @param string $subject
+   * @return void
+   */
+  public function setSubject(string $subject): void {
+    $this->subject = $subject;
+  }
+
+  /**
+   * @return string
+   */
+  public function getMessage(): string {
+    return $this->message;
+  }
+
+  /**
+   * @param string $message
+   * @return void
+   */
+  public function setMessage(string $message): void {
+    $this->message = $message;
+  }
+
+  /**
+   * @return string
+   */
+  public function getStatus(): string {
+    return $this->status;
+  }
+
+  /**
+   * @param string $status
+   * @return void
+   */
+  public function setStatus(string $status): void {
+    $this->status = $status;
+  }
+
+  /**
+   * @return int|null
+   */
+  public function getBacklogIssueId(): ?int {
+    return $this->backlogIssueId;
+  }
+
+  /**
+   * @param int $backlogIssueId
+   * @return void
+   */
+  public function setBacklogIssueId(int $backlogIssueId): void {
+    $this->backlogIssueId = $backlogIssueId;
+  }
+
+  /**
+   * @return string|null
+   */
+  public function getBacklogIssueKey(): ?string {
+    return $this->backlogIssueKey;
+  }
+
+  /**
+   * @param string $backlogIssueKey
+   * @return void
+   */
+  public function setBacklogIssueKey(string $backlogIssueKey): void {
+    $this->backlogIssueKey = $backlogIssueKey;
+  }
+
+  /**
+   * @return string|null
+   */
+  public function getErrorMessage(): ?string {
+    return $this->errorMessage;
+  }
+
+  /**
+   * @param string $errorMessage
+   * @return void
+   */
+  public function setErrorMessage(string $errorMessage): void {
+    $this->errorMessage = $errorMessage;
+  }
+
+  /**
    * 成功時の状態変化をモデル内で定義
    */
   public function complete(int $issueId, string $issueKey): void {
