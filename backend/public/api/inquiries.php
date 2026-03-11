@@ -11,11 +11,13 @@ use App\Repositories\InquiryRepository;
 use App\Services\BacklogService;
 use App\Services\InquiryService;
 use App\Services\SlackService;
+use App\Utils\HttpClient;
 use Throwable;
 use Monolog\Logger;
 
 $repository = new InquiryRepository();
-$backlogService = new BacklogService();
+$httpClient = new HttpClient();
+$backlogService = new BacklogService($httpClient);
 $slackService = new SlackService();
 $logger = new Logger('InquiryService');
 $inquiryService = new InquiryService($repository, $backlogService, $slackService, $logger);
