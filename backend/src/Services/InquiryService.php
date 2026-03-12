@@ -15,6 +15,7 @@ class InquiryService {
   private BacklogService $backlogService;
   private SlackService $slackService;
   private Logger $logger;
+
   public function __construct(
     InquiryRepository $inquiryRepository,
     BacklogService $backlogService,
@@ -26,22 +27,19 @@ class InquiryService {
     $this->slackService = $slackService;
     $this->logger = $logger;
   }
-
   
   public function processInquiry(Inquiry $inquiry): void {
     try {
       // 1. DB保存 (Repository)
       $this->inquiryRepository->create($inquiry);
-      // 2. Backlog連携（追って実装）
-      // $result = $this->backlogService->createIssue($inquiry); 
-      // 3. Slack連携(現状は３つの項目のみ送る。)
+      // 2. Backlog連携
+      $result = $this->backlogService->createIssue($inquiry); 
+      // 3. Slack連携
       $this->slackService->sendSlackMessage($inquiry);
       // 4. DB更新 (Repository)
       $inquiry->complete(
-        // (string)$result['id'],   // 実際の課題ID
-        // (string)$result['key']   // 実際の課題キー
-        12345,
-        "dummyIssueKey"
+        (int)$result['id'],
+        (string)$result['key']
       );
       $this->inquiryRepository->markSuccess($inquiry);
     } catch (Throwable $e) {

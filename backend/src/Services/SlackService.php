@@ -33,7 +33,7 @@ class SlackService {
     [$slackCode, $slackBody, $slackErr] = $this->httpClient->curlJsonPost(env('SLACK_WEBHOOK_URL'), [
       'text' => "新規問い合わせ: {$inquiry->subject}\n
       受付ID: {$inquiry->requestId}\n
-      Backlog: {$inquiry->backlogIssueKey}\n
+      Backlog: {$inquiry->getBacklogIssueKey()}\n
       Name: {$inquiry->name}\n
       Email: {$inquiry->email}\n
       Message: {$inquiry->message}",

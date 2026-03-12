@@ -45,7 +45,7 @@ class InquiryController {
         [
           'ok' => true, 
           'requestId' => $inquiry->requestId,
-          'backlogIssueKey' => $inquiry->backlogIssueKey,
+          'backlogIssueKey' => $inquiry->getBacklogIssueKey(),
           'name' => $inquiry->name,
           'email' => $inquiry->email,
           'subject' => $inquiry->subject,

@@ -8,15 +8,17 @@ import { setHeading } from "../components/heading";
  * @returns
  */
 export const toCompleteHandler = (): void => {
+  sessionStorage.removeItem('inquiry');
+
   if (!dom.stepEdit.classList.contains('hidden')) {
     dom.stepEdit.classList.add('hidden');
   }
 
   dom.stepConfirm.replaceChildren();
+  dom.stepComplete.replaceChildren();
 
   setHeading('送信完了');
   const completeContent = createCompleteContent();
-  dom.stepComplete.replaceChildren();
   dom.stepComplete.append(completeContent);
 
   console.log('送信完了'); 
