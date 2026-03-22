@@ -2,7 +2,7 @@
 module.exports = {
   darkMode: 'class', // これにより .dark クラスで制御可能になります
   content: [
-    './index.html',
+    './frontend/index.html',
     './src/**/*.{js,ts,jsx,tsx}',
   ],
 }
