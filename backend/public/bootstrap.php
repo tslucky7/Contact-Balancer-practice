@@ -5,7 +5,7 @@ use Dotenv\Dotenv;
 use Monolog\Logger;
 use Monolog\Handler\RotatingFileHandler;
 
-require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/../../vendor/autoload.php';
 
 $dotenv = Dotenv::createImmutable(__DIR__ . '/../..');
 $dotenv->safeLoad();
