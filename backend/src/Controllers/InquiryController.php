@@ -9,6 +9,7 @@ use App\Utils\RequestParser;
 use App\Services\InquiryService;
 use App\Validation\ValidatorInterface;
 use Throwable;
+use Psr\Log\LoggerInterface;
 
 /**
  * 問い合わせハンドラー
@@ -16,13 +17,16 @@ use Throwable;
 class InquiryController {
   private InquiryService $inquiryService;
   private ValidatorInterface $validator;
+  private LoggerInterface $logger;
 
   public function __construct(
     InquiryService $inquiryService, 
-    ValidatorInterface $validator
+    ValidatorInterface $validator,
+    LoggerInterface $logger
   ) {
     $this->inquiryService = $inquiryService;
     $this->validator = $validator;
+    $this->logger = $logger;
   }
 
   /**
@@ -72,8 +76,9 @@ class InquiryController {
       echo json_encode(
         [
           'ok' => false, 
-          'error' => $e->getMessage(),
+          'error' => 'エラーが発生しました。',
         ], JSON_UNESCAPED_UNICODE);
+      $this->logger->error($e->getMessage());
       exit;
     }
   }
