@@ -8,7 +8,7 @@ export const resetStepsToEdit = (dom: {
   stepConfirm: HTMLElement, 
   stepComplete: HTMLElement 
 }): void => {
-  setHeading('お問い合わせ');
+  setHeading('TypeScript お問い合わせ');
   dom.stepEdit.classList.remove('hidden');
   dom.stepConfirm.replaceChildren();
   dom.stepComplete.replaceChildren();
