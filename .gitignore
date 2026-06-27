@@ -4,3 +4,4 @@ vendor
 logs
 .vscode/launch.json
 .vscode/settings.json
+.zed/
